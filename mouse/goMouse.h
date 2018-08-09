@@ -11,35 +11,31 @@
 #include "../base/types.h"
 #include "mouse_c.h"
 
-//Global delays.
+// Global delays.
 int mouseDelay = 10;
 // int keyboardDelay = 10;
 
 
-// int CheckMouseButton(const char * const b, MMMouseButton * const button){
+// int CheckMouseButton(const char * const b,
+// MMMouseButton * const button){
 // 	if (!button) return -1;
 
-// 	if (strcmp(b, "left") == 0)
-// 	{
+// 	if (strcmp(b, "left") == 0) {
 // 		*button = LEFT_BUTTON;
 // 	}
-// 	else if (strcmp(b, "right") == 0)
-// 	{
+// 	else if (strcmp(b, "right") == 0) {
 // 		*button = RIGHT_BUTTON;
 // 	}
-// 	else if (strcmp(b, "middle") == 0)
-// 	{
+// 	else if (strcmp(b, "middle") == 0) {
 // 		*button = CENTER_BUTTON;
-// 	}
-// 	else
-// 	{
+// 	} else {
 // 		return -2;
 // 	}
 
 // 	return 0;
 // }
 
-int aMoveMouse(size_t x, size_t y){
+int move_mouse(size_t x, size_t y){
 	MMPoint point;
 	//int x = 103;
 	//int y = 104;
@@ -49,7 +45,7 @@ int aMoveMouse(size_t x, size_t y){
 	return 0;
 }
 
-int aDragMouse(size_t x, size_t y){
+int drag_mouse(size_t x, size_t y){
 	// const size_t x = 10;
 	// const size_t y = 20;
 	MMMouseButton button = LEFT_BUTTON;
@@ -59,35 +55,34 @@ int aDragMouse(size_t x, size_t y){
 	dragMouse(point, button);
 	microsleep(mouseDelay);
 
-	// printf("%s\n","gyp-----");
+	// printf("%s\n", "gyp-----");
 	return 0;
 }
 
-int aMoveMouseSmooth(size_t x, size_t y, double lowSpeed, double highSpeed){
+bool move_mouse_smooth(size_t x, size_t y, double lowSpeed,
+	double highSpeed, int msDelay){
 	MMPoint point;
 	point = MMPointMake(x, y);
-	smoothlyMoveMouse(point, lowSpeed, highSpeed);
-	microsleep(mouseDelay);
+	bool cbool = smoothlyMoveMouse(point, lowSpeed, highSpeed);
+	microsleep(msDelay);
 
-	return 0;
-
+	return cbool;
 }
 
-MMPoint aGetMousePos(){
+MMPoint get_mouse_pos(){
 	MMPoint pos = getMousePos();
 
-	//Return object with .x and .y.
+	// Return object with .x and .y.
 	// printf("%zu\n%zu\n", pos.x, pos.y );
 	return pos;
 }
 
-int aMouseClick(MMMouseButton button, bool doubleC){
+int mouse_click(MMMouseButton button, bool doubleC){
 	// MMMouseButton button = LEFT_BUTTON;
 	// bool doubleC = false;
-
-	if (!doubleC){
+	if (!doubleC) {
 		clickMouse(button);
-	}else{
+	} else {
 		doubleClick(button);
 	}
 
@@ -96,39 +91,46 @@ int aMouseClick(MMMouseButton button, bool doubleC){
 	return 0;
 }
 
-int aMouseToggle(char* d, MMMouseButton button){
+int mouse_toggle(char* d, MMMouseButton button){
 	// MMMouseButton button = LEFT_BUTTON;
 	bool down = false;
-	if (strcmp(d, "down") == 0){
+	if (strcmp(d, "down") == 0) {
 		down = true;
-	}else if (strcmp(d, "up") == 0){
+	} else if (strcmp(d, "up") == 0) {
 		down = false;
-	}else{
+	} else {
 		return 1;
 	}
 
 	toggleMouse(down, button);
 	microsleep(mouseDelay);
+	
 	return 0;
 }
 
-int aSetMouseDelay(size_t val){
-	// int val=10;
+int set_mouse_delay(size_t val){
+	// int val = 10;
 	mouseDelay = val;
 
 	return 0;
 }
 
-int aScrollMouse(size_t scrollMagnitude, char *s){
-	// int scrollMagnitude = 20;
+int scroll(int x, int y, int msDelay){
+	scrollMouseXY(x, y);
+	microsleep(msDelay);
 
+	return 0;
+}
+
+int scroll_mouse(size_t scrollMagnitude, char *s){
+	// int scrollMagnitude = 20;
 	MMMouseWheelDirection scrollDirection;
 
-	if (strcmp(s, "up") == 0){
+	if (strcmp(s, "up") == 0) {
 		scrollDirection = DIRECTION_UP;
-	}else if (strcmp(s, "down") == 0){
-			scrollDirection = DIRECTION_DOWN;
-	}else{
+	} else if (strcmp(s, "down") == 0) {
+		scrollDirection = DIRECTION_DOWN;
+	} else {
 		// return "Invalid scroll direction specified.";
 		return 1;
 	}

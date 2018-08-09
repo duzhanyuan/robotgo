@@ -17,8 +17,7 @@
 	#include <string.h>
 #endif
 
-MMBitmapRef copyMMBitmapFromDisplayInRect(MMRect rect)
-{
+MMBitmapRef copyMMBitmapFromDisplayInRect(MMRect rect){
 #if defined(IS_MACOSX)
 
 	MMBitmapRef bitmap = NULL;
@@ -42,7 +41,7 @@ MMBitmapRef copyMMBitmapFromDisplayInRect(MMRect rect)
 	bufferSize = CFDataGetLength(imageData);
 	buffer = malloc(bufferSize);
 
-	CFDataGetBytes(imageData, CFRangeMake(0,bufferSize), buffer);
+	CFDataGetBytes(imageData, CFRangeMake(0, bufferSize), buffer);
 
 	bitmap = createMMBitmap(buffer,
 		CGImageGetWidth(image),

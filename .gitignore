@@ -1,6 +1,18 @@
 # Object files
 .DS_Store
 .vscode
+.idea
+
+# Examples
+examples/screen/screen
+examples/screen/saveCapture.png
+examples/bitmap/test.png
+examples/bitmap/test2.png
+examples/bitmap/test.tif
+examples/bitmap/test31.tif
+examples/bitmap/tocbitmap.png
+examples/bitmap/teststr.png
+test/test.png
 
 # Debug files
 *.dSYM/
@@ -30,7 +42,14 @@ _testmain.go
 
 # Libraries
 *.lib
+# !cdeps/win32/libpng.lib
+# !cdeps/win32/zlib.lib
+# !cdeps/win64/libpng.lib
+# !cdeps/win64/zlib.lib
 *.a
+!cdeps/mac/libpng.a
+!cdeps/win32/libpng.a
+!cdeps/win64/libpng.a
 *.la
 *.lo
 
@@ -48,3 +67,5 @@ _testmain.go
 *.x86_64
 *.hex
 
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+ .glide/

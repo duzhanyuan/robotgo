@@ -9,18 +9,59 @@
 // except according to those terms.
 
 #include "../base/types.h"
+#include "../base/rgb.h"
 #include "screengrab_c.h"
 #include "screen_c.h"
 // #include "../MMBitmap_c.h"
 
 void padHex(MMRGBHex color, char* hex){
-	//Length needs to be 7 because snprintf includes a terminating null.
-	//Use %06x to pad hex value with leading 0s.
+	// Length needs to be 7 because snprintf includes a terminating null.
+	// Use %06x to pad hex value with leading 0s.
 	snprintf(hex, 7, "%06x", color);
 }
 
+char* pad_hex(MMRGBHex color){
+	char hex[7];
+	padHex(color, hex);
+	// destroyMMBitmap(bitmap);
 
-char* aGetPixelColor(size_t x, size_t y){
+	char* str = (char*)calloc(100, sizeof(char*));
+    if(str)strcpy(str, hex);
+
+	return str;
+}
+
+static uint8_t rgb[3];
+
+uint8_t* color_hex_to_rgb(uint32_t h){
+	rgb[0] = RED_FROM_HEX(h);
+	rgb[1] = GREEN_FROM_HEX(h);
+	rgb[2] = BLUE_FROM_HEX(h);
+	return rgb;
+}
+
+uint32_t color_rgb_to_hex(uint8_t r, uint8_t g, uint8_t b){
+	return RGB_TO_HEX(r, g, b);
+}
+
+MMRGBHex get_px_color(size_t x, size_t y){
+	MMBitmapRef bitmap;
+	MMRGBHex color;
+
+	if (!pointVisibleOnMainDisplay(MMPointMake(x, y))){
+		return color;
+	}
+
+	bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, 1, 1));
+	// bitmap = MMRectMake(x, y, 1, 1);
+
+	color = MMRGBHexAtPoint(bitmap, 0, 0);
+	destroyMMBitmap(bitmap);
+
+	return color;
+}
+
+char* get_pixel_color(size_t x, size_t y){
 	MMBitmapRef bitmap;
 	MMRGBHex color;
 
@@ -35,13 +76,10 @@ char* aGetPixelColor(size_t x, size_t y){
 	color = MMRGBHexAtPoint(bitmap, 0, 0);
 
 	char hex[7];
-
 	padHex(color, hex);
-
 	destroyMMBitmap(bitmap);
 
 	// printf("%s\n", hex);
-
 	// return 0;
 
 	char* s = (char*)calloc(100, sizeof(char*));
@@ -50,47 +88,45 @@ char* aGetPixelColor(size_t x, size_t y){
 	return s;
 }
 
-MMSize aGetScreenSize(){
-	//Get display size.
+MMSize get_screen_size(){
+	// Get display size.
 	MMSize displaySize = getMainDisplaySize();
 	return displaySize;
 }
 
-char* aSetXDisplayName(char* name){
+char* set_XDisplay_name(char* name){
 	#if defined(USE_X11)
-	setXDisplay(name);
-	return "success";
+		setXDisplay(name);
+		return "success";
 	#else
-	return "setXDisplayName is only supported on Linux";
+		return "setXDisplayName is only supported on Linux";
 	#endif
 }
 
-char* aGetXDisplayName(){
+char* get_XDisplay_name(){
 	#if defined(USE_X11)
-	const char* display = getXDisplay();
-	char* sd = (char*)calloc(100, sizeof(char*));
-    if(sd)strcpy(sd, display);
+		const char* display = getXDisplay();
+		char* sd = (char*)calloc(100, sizeof(char*));
+		if(sd)strcpy(sd, display);
 
-	return sd;
+		return sd;
 	#else
-	return "getXDisplayName is only supported on Linux";
+		return "getXDisplayName is only supported on Linux";
 	#endif
 }
 
-MMBitmapRef aCaptureScreen(size_t x, size_t y, size_t w, size_t h){
+// capture_screen capture screen
+MMBitmapRef capture_screen(size_t x, size_t y, size_t w, size_t h){
 	// if (){
 	// 	x = 0;
 	// 	y = 0;
-
-	// 	//Get screen size.
+	// 	// Get screen size.
 	// 	MMSize displaySize = getMainDisplaySize();
 	// 	w = displaySize.width;
 	// 	h = displaySize.height;
 	// }
-
 	MMBitmapRef bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, w, h));
 	// printf("%s\n", bitmap);
-
 	return bitmap;
 }
 

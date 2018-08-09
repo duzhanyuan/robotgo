@@ -9,14 +9,15 @@
 - Go version:
 - Gcc version:
 - Operating system and bit:
-- Can you reproduce the bug at [Example](https://github.com/go-vgo/robotgo/blob/master/example/main.go):
+- Can you reproduce the bug at [Examples](https://github.com/go-vgo/robotgo/blob/master/examples/main.go):
   - [ ] Yes (provide example code)
   - [ ] No
   - [ ] Not relevant
-- Provide example code: 
-    ```Go
+- Provide example code:
 
-    ```
+```Go
+
+```
 - Log gist:
 
 ## Description

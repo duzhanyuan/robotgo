@@ -12,6 +12,10 @@
 ##### [TypeString](#TypeString)
 ##### [TypeStringDelayed](#TypeStrDelay) (Equivalent to TypeStrDelay, Wno-deprecated)
 ##### [TypeStrDelay](#TypeStrDelay)
+##### [TypeStr](#TypeStr)
+##### [WriteAll](#WriteAll)
+##### [ReadAll](#ReadAll)
+
 
 ## [Mouse](#Mouse)
 
@@ -46,6 +50,10 @@
 ##### [TostringBitmap](#TostringBitmap)
 ##### [GetPortion](#GetPortion)
 ##### [Convert](#Convert)
+#### [FreeBitmap](#FreeBitmap)
+#### [ReadBitmap](#ReadBitmap)
+#### [CopyBitpb](#CopyBitpb)
+#### [DeepCopyBit](#DeepCopyBit)
 
 ## [Event](#Event)
 
@@ -66,6 +74,13 @@
 ##### [GetBHandle](#GetHandle)
 ##### [GetTitle](#GetTitle)
 ##### [GetPID](#GetPID)
+##### [Pids](#Pids)
+##### [PidExists](#PidExists)
+##### [Process](#Process)
+##### [FindName](#FindName)
+##### [FindNames](#FindNames)
+##### [FindIds](#FindIds)
+#### [ActivePID](#ActivePID)
 
 ### <h3 id="GetVersion">.GetVersion()</h3>
     Get robotgo version
@@ -124,6 +139,25 @@ modifier (optional, string or array) - Accepts alt, command (mac), control, and 
     string - The string to send.
     cpm - Characters per minute.
 
+### <h3 id="TypeStr">.TypeStr(string)</h3>
+
+#### Arguments:
+
+    string - The string to send.
+
+### <h3 id="WriteAll">.WriteAll(text string)</h3>
+
+#### Arguments:
+    text string
+#### Return:      
+
+### <h3 id="ReadAll">.ReadAll()</h3>
+
+#### Arguments:
+
+#### Return: 
+    text,
+    error 
 
 
 ## <h2 id="Mouse">Mouse</h2>
@@ -296,7 +330,7 @@ robotgo.ScrollMouse(50, "down")
 
     Gets part or all of the screen.
 
-    BCaptureScreen Returns a go struct
+    GoCaptureScreen Returns a go struct
     Capture_Screen (Drop support)
 
 #### Arguments:
@@ -398,6 +432,76 @@ robotgo.ScrollMouse(50, "down")
 robotgo.Convert("test.png", "test.tif")
 ```             
 
+### <h3 id="FreeBitmap">.FreeBitmap(MMBitmapRef)</h3>
+
+    FreeBitmap free and dealloc bitmap
+
+#### Arguments:
+
+    MMBitmapRef
+
+#### Examples:
+
+```Go
+robotgo.FreeBitmap(bitmap)
+```    
+
+
+### <h3 id="ReadBitmap">.ReadBitmap(MMBitmapRef)</h3>
+
+    ReadBitmap returns false and sets error if |bitmap| is NULL
+
+#### Arguments:
+
+    MMBitmapRef
+
+#### Return:
+
+    bool
+
+#### Examples:
+
+```Go
+robotgo.ReadBitmap(bitmap)
+```    
+
+
+### <h3 id="CopyBitpb">.CopyBitpb(MMBitmapRef)</h3>
+
+   CopyBitpb copy bitmap to pasteboard
+
+#### Arguments:
+
+    MMBitmapRef
+
+#### Return:
+
+    bool
+
+#### Examples:
+
+```Go
+robotgo.CopyBitpb(bitmap)
+```    
+
+### <h3 id="DeepCopyBit">.DeepCopyBit(MMBitmapRef)</h3>
+
+   DeepCopyBit deep copy bitmap
+
+#### Arguments:
+
+    MMBitmapRef
+
+#### Return:
+
+    MMBitmapRef
+
+#### Examples:
+
+```Go
+robotgo.DeepCopyBit(bitmap)
+```  
+
 ## <h2 id="Event">Event</h2> 
 
 ### <h3 id="AddEvent">.AddEvent(string)</h3>
@@ -408,7 +512,7 @@ robotgo.Convert("test.png", "test.tif")
 
     string
 
-    (mosue arguments: mleft, mright, wheelDown, wheelUp, wheelLeft, wheelRight)
+    (mouse arguments: mleft, mright, wheelDown, wheelUp, wheelLeft, wheelRight)
 
 #### Return:
 
@@ -540,3 +644,73 @@ func main() {
 #### Return:
     Returns the process id         
      
+### <h3 id="Pids">.Pids()</h3>
+
+    Pids get the all process id
+
+#### Arguments:
+    None   
+
+#### Return:
+    Returns all process id   
+
+### <h3 id="PidExists">.PidExists()</h3>
+
+    PidExists determine whether the process exists
+
+#### Arguments:
+    pid  
+
+#### Return:
+    Returns bool 
+
+### <h3 id="Process">.Process()</h3>
+
+  Process get the all process struct
+
+#### Arguments:
+    none  
+
+#### Return:
+    Returns []Nps, error
+
+### <h3 id="FindName">.FindName()</h3>
+
+    FindName find the process name by the process id
+
+#### Arguments:
+    pid  
+
+#### Return:
+    Returns string, error       
+
+### <h3 id="FindNames">.FindNames()</h3>
+
+    FindNames find the all process name
+
+#### Arguments:
+    none  
+
+#### Return:
+    Returns []string, error  
+
+### <h3 id="FindIds">.FindIds()</h3>
+
+    FindIds find the process id by the process name
+
+#### Arguments:
+    name string  
+
+#### Return:
+    Returns []int32, error 
+
+
+### <h3 id="ActivePID">.ActivePID()</h3>
+
+    ActivePID window active by PID
+
+#### Arguments:
+    pid int32 
+
+#### Return:
+    none                  

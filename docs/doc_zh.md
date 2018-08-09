@@ -12,6 +12,9 @@
 ##### [TypeString](#TypeString)
 ##### [TypeStringDelayed](#TypeStrDelay) (相当于 TypeStrDelay, 废弃 API)
 ##### [TypeStrDelay](#TypeStrDelay)
+##### [TypeStr](#TypeStr)
+##### [WriteAll](#WriteAll)
+##### [ReadAll](#ReadAll)
 
 ## [鼠标](#Mouse)
 
@@ -49,6 +52,10 @@
 ##### [TostringBitmap](#TostringBitmap)
 ##### [GetPortion](#GetPortion)
 ##### [Convert](#Convert)
+#### [FreeBitmap](#FreeBitmap)
+#### [ReadBitmap](#ReadBitmap)
+#### [CopyBitpb](#CopyBitpb)
+#### [DeepCopyBit](#DeepCopyBit)
 
 ## [事件](#Event)
 
@@ -69,6 +76,13 @@
 ##### [GetBHandle](#GetHandle)
 ##### [GetTitle](#GetTitle)
 ##### [GetPID](#GetPID)
+##### [Pids](#Pids)
+##### [PidExists](#PidExists)
+##### [Process](#Process)
+##### [FindName](#FindName)
+##### [FindNames](#FindNames)
+##### [FindIds](#FindIds)
+#### [ActivePID](#ActivePID)
 
 
 ## <h2 id="Keyboard">键盘</h2>
@@ -130,7 +144,25 @@ modifier (optional, string or array) - Accepts alt, command (mac), control, and 
     string - The string to send.
     cpm - Characters per minute.
 
+### <h3 id="TypeStr">.TypeStr(string)</h3>
 
+#### 参数:
+
+    string - The string to send.
+
+### <h3 id="WriteAll">.WriteAll(text string)</h3>
+
+#### 参数:
+    text string
+#### 返回值:      
+
+### <h3 id="ReadAll">.ReadAll()</h3>
+
+#### 参数:
+
+#### 返回值: 
+    text,
+    error 
 
 ## <h2 id="Mouse">鼠标</h2>
 ### <h3 id="SetMouseDelay">.SetMouseDelay(ms)</h3>
@@ -312,7 +344,7 @@ robotgo.ScrollMouse(50, "down")
     获取部分或者全部屏幕
     Gets part or all of the screen.
 
-    BCaptureScreen Returns a go struct
+    GoCaptureScreen Returns a go struct
     Capture_Screen (废弃)
 
 #### 参数:
@@ -413,6 +445,77 @@ robotgo.ScrollMouse(50, "down")
 ```Go
 robotgo.Convert("test.png", "test.tif")
 ```  
+
+### <h3 id="FreeBitmap">.FreeBitmap(MMBitmapRef)</h3>
+
+    FreeBitmap free and dealloc bitmap
+
+#### 参数:
+
+    MMBitmapRef
+
+#### 示例:
+
+```Go
+robotgo.FreeBitmap(bitmap)
+```    
+
+
+### <h3 id="ReadBitmap">.ReadBitmap(MMBitmapRef)</h3>
+
+    ReadBitmap returns false and sets error if |bitmap| is NULL
+
+#### 参数:
+
+    MMBitmapRef
+
+#### 返回值:
+
+    bool
+    
+#### 示例:
+
+```Go
+robotgo.ReadBitmap(bitmap)
+```    
+
+
+### <h3 id="CopyBitpb">.CopyBitpb(MMBitmapRef)</h3>
+
+   CopyBitpb copy bitmap to pasteboard
+
+#### 参数:
+
+    MMBitmapRef
+
+#### 返回值:
+
+    bool
+
+#### 示例:
+
+```Go
+robotgo.CopyBitpb(bitmap)
+```    
+
+### <h3 id="DeepCopyBit">.DeepCopyBit(MMBitmapRef)</h3>
+
+   DeepCopyBit deep copy bitmap
+
+#### 参数:
+
+    MMBitmapRef
+
+#### 返回值:
+
+    MMBitmapRef
+
+#### 示例:
+
+```Go
+robotgo.DeepCopyBit(bitmap)
+```  
+
 ## <h2 id="Event">事件</h2> 
 
 ### <h3 id="AddEvent">.AddEvent(string)</h3>
@@ -554,4 +657,74 @@ func main() {
     无   
 
 #### 返回值:
-    返回进程 id        
+    返回进程 id    
+
+### <h3 id="Pids">.Pids()</h3>
+
+    获取所有进程 id
+
+#### 参数:
+    无   
+
+#### 返回值:
+    返回进程 id   
+
+### <h3 id="PidExists">.PidExists()</h3>
+
+    判断进程 id 是否存在
+
+#### 参数:
+    pid  
+
+#### 返回值:
+    返回 bool 
+
+### <h3 id="Process">.Process()</h3>
+
+  Process get the all process struct
+
+#### 参数:
+    无  
+
+#### 返回值:
+    Returns []Nps, error
+
+### <h3 id="FindName">.FindName()</h3>
+
+    FindName find the process name by the process id
+
+#### 参数:
+    pid  
+
+#### 返回值:
+    Returns string, error 
+
+### <h3 id="FindNames">.FindNames()</h3>
+
+    FindNames find the all process name
+
+#### Arguments:
+    none  
+
+#### Return:
+    Returns []string, error  
+
+### <h3 id="FindIds">.FindIds()</h3>
+
+    FindIds find the process id by the process name
+
+#### Arguments:
+    name string  
+
+#### Return:
+    Returns []int32, error  
+
+### <h3 id="ActivePID">.ActivePID()</h3>
+
+    ActivePID window active by PID
+
+#### Arguments:
+    pid int32 
+
+#### Return:
+    none                        
